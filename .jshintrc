@@ -1,0 +1,31 @@
+{
+  "node": true,
+
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "immed": true,
+  "latedef": true,
+  "maxlen": 100,
+  "maxparams": 4,
+  "newcap": true,
+  "noarg": true,
+  "strict": true,
+  "undef": true,
+
+  "esnext": true,
+  "expr": true,
+  "funcscope": true,
+  "sub": true,
+
+  "globals": {
+    "browser": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
+  }
+}
