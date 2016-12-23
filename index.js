@@ -4,7 +4,7 @@ var mongoStream = require('stream-to-mongo'),
     bunyan = require('bunyan');
 
 /**
- * Create Bunyan logger with passed stream.
+ * Create Bunyan logger with specified stream.
  *
  * @param {object} options                - logger options
  * @param {string} options.name           - logger name

@@ -40,6 +40,31 @@ logger.error(new Error('some error'), 'some custom message');
 logger.info('Some info');
 ```
 
+Or you can create lib with logger as follow:
+
+### path-to-you-app/lib/logger.js
+```js
+'use strict';
+
+var logger = require('bunyan-mongodb-logger');
+
+module.exports = logger({
+  name: 'express-app',
+  streams: ['stdout', 'mongodb'],
+  url: 'mongodb://localhost/logger',
+  level: 'info'
+})
+```
+
+and then use logger in your code:
+
+```js
+var logger = require('path-to-you-app/lib/logger');
+
+logger.error(new Error('some error'), 'some custom message');
+logger.info('Some info');
+```
+ 
 ## Tests
 Just run:
 ```js

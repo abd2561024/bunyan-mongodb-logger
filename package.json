@@ -16,7 +16,6 @@
     "mongodb",
     "logger"
   ],
-  "license": "MIT",
   "dependencies": {
     "bunyan": "1.8.5",
     "mongodb": "2.0.48",
