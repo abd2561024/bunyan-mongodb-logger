@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/abd2561024/bunyan-mongo-logger.git"
+    "url": "git+https://github.com/abd2561024/bunyan-mongodb-logger.git"
   },
   "keywords": [
     "bunyan",

@@ -27,9 +27,9 @@ This logger allows you to save your logs to `MongoDB`, `stdout` or file. It base
 ```js
 'use strict';
 
-var logger = require('bunyan-mongodb-logger');
+var bunyanMongoDbLogger = require('bunyan-mongodb-logger');
 
-module.exports = logger({
+var logger = bunyanMongoDbLogger({
   name: 'some-name',
   streams: ['stdout', 'mongodb'],
   url: 'mongodb://localhost/logger-test',
