@@ -1,6 +1,6 @@
 {
   "name": "bunyan-mongodb-logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Logger for writing logs to MongoDB, files or output it's to stdout",
   "main": "index.js",
   "scripts": {
