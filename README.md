@@ -1,6 +1,7 @@
 # bunyan-mongodb-logger
 
 [![Build Status](https://travis-ci.org/abd2561024/bunyan-mongodb-logger.svg?branch=master)](https://travis-ci.org/abd2561024/bunyan-mongodb-logger)
+[![npm version](https://badge.fury.io/js/bunyan-mongodb-logger.svg)](https://badge.fury.io/js/bunyan-mongodb-logger)
 
 # Introduction
 
@@ -22,7 +23,7 @@ This logger allows you to save your logs to `MongoDB`, `stdout` or file. It base
 |path           |Yes, with `file` stream |String | Output file path.|
 
  
-### Using the module.
+### Using the module
 
 ```js
 'use strict';
