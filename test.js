@@ -1,64 +1,56 @@
 'use strict';
 
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
-var bunyanLogger = require('./index'),
-    MongoClient = require('mongodb').MongoClient;
+const bunyanLogger = require('./index'),
+      MongoClient = require('mongodb').MongoClient;
 
-var mongoUrl = 'mongodb://localhost/logger-test';
+const dbName = 'logger-test';
+const mongoUrl = `mongodb://localhost/${dbName}`;
 
-describe('bunyan-mongodb-logger', function () {
-  var loggerCollection, options, logger;
+describe('bunyan-mongodb-logger', () => {
+  let loggerCollection, logger;
 
-  beforeEach(function (done) {
-    MongoClient.connect(mongoUrl, function (err, db) {
-      if (err) {
-        return done(err);
-      }
+  beforeEach('connect to MongoDB', () => {
+    return MongoClient.connect(mongoUrl, { useNewUrlParser: true })
+      .then((client) => client.db(dbName))
+      .then((db) => {
+        loggerCollection = db.collection('logs');
 
-      loggerCollection = db.collection('logs');
-      loggerCollection.remove({}, done);
+        loggerCollection.removeMany({});
+      });
+  });
+
+  describe('requiring', () => {
+    it('should not throw an error', () => {
+      expect(() => require('./index')).to.not.throw();
     });
   });
 
-  describe('requiring', function () {
-    it('should not throw an error', function () {
-      expect(function () {
-        return require('./logger-lib');
-      }).to.not.throw();
-    });
-  });
-
-  describe.only('init', function () {
-    it('should throw an error when no logger name is specified', function () {
-      expect(function () {
-        return bunyanLogger({
-          stream: 'mongodb',
-          url: mongoUrl
-        });
-      }).to.throw('Missing logger `name` option');
+  describe('init', () => {
+    it('should throw an error when no logger name is specified', () => {
+      expect(() => bunyanLogger({
+        stream: 'mongodb',
+        url: mongoUrl
+      })).to.throw('Missing logger `name` option');
     });
 
-    it('should throw an error when no logger stream is specified', function () {
-      expect(function () {
-        return bunyanLogger({
-          name: 'test',
-          url: mongoUrl
-        });
-      }).to.throw('Missing logger `stream` or `streams` options');
+    it('should throw an error when no logger stream is specified', () => {
+      expect(() => bunyanLogger({
+        name: 'test',
+        url: mongoUrl
+      })).to.throw('Missing logger `stream` or `streams` options');
     });
 
-    it('should throw an error when no logger streams is specified', function () {
-      expect(function () {
-        return bunyanLogger({
-          name: 'test',
-          streams: 'mongodb',
-          url: mongoUrl
-        });
-      }).to.throw('Expected `options.streams` to be an Array.');
+    it('should throw an error when no logger streams is specified', () => {
+      expect(() => bunyanLogger({
+        name: 'test',
+        streams: 'mongodb',
+        url: mongoUrl
+      })).to.throw('Expected `options.streams` to be an Array.');
     });
 
-    it('should create logger with level\'s methods', function () {
+    it('should create logger with level\'s methods', () => {
       logger = bunyanLogger({
         name: 'test',
         stream: 'mongodb',
@@ -70,8 +62,8 @@ describe('bunyan-mongodb-logger', function () {
       expect(logger).to.have.property('debug');
     });
 
-    describe('when `logger.error` was called', function () {
-      beforeEach('create logger with single mongoDB stream', function () {
+    describe('when `logger.error` was called', () => {
+      beforeEach('create logger with single mongoDB stream', () => {
         logger = bunyanLogger({
           name: 'test',
           stream: 'mongodb',
@@ -79,22 +71,32 @@ describe('bunyan-mongodb-logger', function () {
         });
       });
 
-      beforeEach('call `logger.error`', function () {
+      beforeEach('call `logger.error`', () => {
         logger.error(new Error('some error'), 'Some custom message');
       });
 
-      it('should save `log` with selected stream', function (done) {
+      it('should save `log` with selected stream', done => {
         // timeout for inserting error into mongoDB collection
-        setTimeout(function () {
+        setTimeout(() => {
           loggerCollection.findOne({})
-            .then(function (result) {
+            .then(result => {
               expect(result).to.have.property('msg', 'Some custom message');
               done();
             })
-            .catch(function (err) {
-              return done(err);
-            });
-        }, 200);
+            .catch(() => done());
+        }, 100);
+      });
+
+      it('should save `log` with right log level', done => {
+        // timeout for inserting error into mongoDB collection
+        setTimeout(() => {
+          loggerCollection.findOne({})
+            .then(result => {
+              expect(result).to.have.property('level', 50);
+              done();
+            })
+            .catch(() => done());
+        }, 100);
       });
     });
   });

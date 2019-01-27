@@ -3,8 +3,11 @@
   "version": "0.0.3",
   "description": "Logger for writing logs to MongoDB, files or output it's to stdout",
   "main": "index.js",
+  "engines" : {
+    "node" : ">=6"
+  },
   "scripts": {
-    "test": "NODE_ENV=test mocha --timeout 5000",
+    "test": "cross-env NODE_ENV=test mocha \"test.js\" --exit",
     "jshint": "./node_modules/.bin/jshint --exclude ./node_modules ."
   },
   "repository": {
@@ -17,13 +20,16 @@
     "logger"
   ],
   "dependencies": {
-    "bunyan": "1.8.5",
-    "mongodb": "2.0.48",
-    "stream-to-mongo": "^0.1.5"
+    "bunyan": "^1.8.12",
+    "mongodb": "3.1.13",
+    "stream-to-mongo-db": "^1.6.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "jshint": "^2.9.4",
-    "mocha": "^2.5.3"
-  }
+    "mocha": "^5.2.0"
+  },
+  "author": "Romahin Andrey <abd2561024@gmail.com> (https://github.com/abd2561024)",
+  "license": "MIT"
 }

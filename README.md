@@ -28,9 +28,9 @@ This logger allows you to save your logs to `MongoDB`, `stdout` or file. It base
 ```js
 'use strict';
 
-var bunyanMongoDbLogger = require('bunyan-mongodb-logger');
+const bunyanMongoDbLogger = require('bunyan-mongodb-logger');
 
-var logger = bunyanMongoDbLogger({
+const logger = bunyanMongoDbLogger({
   name: 'some-name',
   streams: ['stdout', 'mongodb'],
   url: 'mongodb://localhost/logger-test',
@@ -47,7 +47,7 @@ Or you can create lib with logger as follow:
 ```js
 'use strict';
 
-var logger = require('bunyan-mongodb-logger');
+const logger = require('bunyan-mongodb-logger');
 
 module.exports = logger({
   name: 'express-app',
@@ -60,7 +60,7 @@ module.exports = logger({
 and then use logger in your code:
 
 ```js
-var logger = require('path-to-you-app/lib/logger');
+const logger = require('path-to-you-app/lib/logger');
 
 logger.error(new Error('some error'), 'some custom message');
 logger.info('Some info');

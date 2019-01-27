@@ -1,7 +1,7 @@
 'use strict';
 
-var mongoStream = require('stream-to-mongo'),
-    bunyan = require('bunyan');
+const mongoStream = require('stream-to-mongo-db').streamToMongoDB,
+      bunyan = require('bunyan');
 
 /**
  * Create Bunyan logger with specified stream.
@@ -32,23 +32,25 @@ module.exports = function (options) {
     options.streams = [options.stream];
   }
 
-  var streamOptions = [];
+  const streamOptions = [];
 
-  var stdOutStream = {
+  const stdOutStream = {
     level: options.level || 'debug',
     stream: process.stdout
   };
 
-  for (var i = 0, stream; (stream = options.streams[i]); i++) {
+  options.streams.forEach(stream => {
     switch (stream) {
       case 'mongodb':
+        const writableStream = mongoStream({
+          dbURL : options.url,
+          collection : options.collections || 'logs'
+        });
+
         streamOptions.push({
           type: 'raw',
           level: options.level || 'info',
-          stream: mongoStream({
-            db: options.url,
-            collection: options.collections || 'logs'
-          })
+          stream: writableStream
         });
         break;
 
@@ -70,7 +72,7 @@ module.exports = function (options) {
       default:
         streamOptions.push(stdOutStream);
     }
-  }
+  });
 
   return bunyan.createLogger({
     name: options.name,
