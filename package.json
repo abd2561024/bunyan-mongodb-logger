@@ -1,10 +1,10 @@
 {
   "name": "bunyan-mongodb-logger",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Logger for writing logs to MongoDB, files or output it's to stdout",
   "main": "index.js",
   "engines" : {
-    "node" : ">=6"
+    "node" : ">=8"
   },
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha \"test.js\" --exit",
